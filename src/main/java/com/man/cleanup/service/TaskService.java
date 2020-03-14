@@ -26,18 +26,7 @@ public class TaskService {
     @POST
     @Transactional
     public Response create(Task t) {
-        
-        try
-        {
-            Task.persist(t);
-
-            System.out.println( t );
-        }
-        catch( Exception e ) 
-        {
-            System.out.println( e );
-        }
-
+        Task.persist(t);
         return Response.ok(t).status(201).build();
     }
 
@@ -48,19 +37,19 @@ public class TaskService {
         if (!controller.isValid(t)) {
             return Response.ok("Task was not found").type(MediaType.APPLICATION_JSON_TYPE).build();
         }
-        Task tEntity = controller.update(id, t);
-        return Response.ok(tEntity).build();
+        Task entity = controller.update(id, t);
+        return Response.ok(entity).build();
     }
 
     @DELETE
     @Path("{id}")
     @Transactional
     public Response delete(@PathParam("id") Long id) {
-        Task tEntity = Task.findById(id);
-        if (tEntity == null) {
+        Task entity = Task.findById(id);
+        if (entity == null) {
             throw new WebApplicationException("Food with id " + id + " does not exist.", Response.Status.NOT_FOUND);
         }
-        tEntity.delete();
+        entity.setActive( false );
         return Response.status(204).build();
     }
 }

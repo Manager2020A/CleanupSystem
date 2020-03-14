@@ -16,6 +16,7 @@ public class TaskController {
         }
         task.setName(t.getName());
         task.setGuidelines(t.getGuidelines());
+        task.setActive(t.isAtive());
         return task;
     }
 

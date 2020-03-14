@@ -18,6 +18,9 @@ public class Task extends PanacheEntityBase {
     @Column
     private String guidelines;
 
+    @Column
+    private boolean active;
+
     /**
      * @return the id
      */
@@ -51,6 +54,20 @@ public class Task extends PanacheEntityBase {
      */
     public void setGuidelines(String guidelines) {
         this.guidelines = guidelines;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isAtive() {
+        return active;
     }
 
     @Override
