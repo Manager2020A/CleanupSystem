@@ -19,7 +19,7 @@ public class Task extends PanacheEntityBase {
     private String guidelines;
 
     @Column
-    private boolean active;
+    private boolean active = true;
 
     /**
      * @return the id

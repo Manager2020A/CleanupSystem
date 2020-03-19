@@ -26,8 +26,19 @@ public class TaskService {
     @POST
     @Transactional
     public Response create(Task t) {
-        Task.persist(t);
-        return Response.ok(t).status(201).build();
+
+        try {
+            controller.check(t);
+
+            Task.persist(t);
+
+            return Response.ok(t).status(201).build();
+        }
+
+        catch (Exception e) {
+            return Response.serverError().entity(e).build();
+        }
+
     }
 
     @PUT
@@ -49,7 +60,7 @@ public class TaskService {
         if (entity == null) {
             throw new WebApplicationException("Food with id " + id + " does not exist.", Response.Status.NOT_FOUND);
         }
-        entity.setActive( false );
+        entity.setActive(false);
         return Response.status(204).build();
     }
 }
