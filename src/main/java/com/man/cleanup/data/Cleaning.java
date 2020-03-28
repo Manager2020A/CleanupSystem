@@ -2,14 +2,20 @@ package com.man.cleanup.data;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-//@Entity(name = "cleanings")
+@Entity(name = "cleanings")
 public class Cleaning extends PanacheEntityBase {
+
+    public enum Frequency {
+        MANUAL, DAY, WEEKLY, BI_WEEKLY, MONTH, YEAR,
+    };
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +27,29 @@ public class Cleaning extends PanacheEntityBase {
     @Column
     private String guidelines;
 
-    @Column(name = "estimated_date")
-    private Date estimateDate;
+    @Column(name = "next_date")
+    private Date nextDate;
 
-    @Column(name = "realized_date")
-    private Date realizedDate;
+    @Column(name = "due_date")
+    private Date dueDate;
 
-    @Column(name = "estimate_time")
+    @Column(name = "estimated_time")
     private Time estimateTime;
 
     @Column
     private boolean active;
 
-    ;
+    @Enumerated
+    @Column
+    private Frequency frequency = Frequency.MANUAL;
+
+    @OneToMany()
+    @JoinColumn(name = "ref_cleaning")
+    private List<CleaningTask> tasks = new ArrayList<CleaningTask>();
+
+    @OneToMany()
+    @JoinColumn(name = "ref_cleaning")
+    private List<CleaningProduct> products = new ArrayList<CleaningProduct>();
 
     /**
      * @return the id
@@ -57,17 +73,17 @@ public class Cleaning extends PanacheEntityBase {
     }
 
     /**
-     * @return the estimateDate
+     * @return the nextDate
      */
-    public Date getEstimateDate() {
-        return estimateDate;
+    public Date getNextDate() {
+        return nextDate;
     }
 
     /**
-     * @param estimateDate the estimateDate to set
+     * @param nextDate the nextDate to set
      */
-    public void setEstimateDate(Date estimateDate) {
-        this.estimateDate = estimateDate;
+    public void setNextDate(Date nextDate) {
+        this.nextDate = nextDate;
     }
 
     /**
@@ -99,17 +115,31 @@ public class Cleaning extends PanacheEntityBase {
     }
 
     /**
-     * @return the realizedDate
+     * @return the dueDate
      */
-    public Date getRealizedDate() {
-        return realizedDate;
+    public Date getDueDate() {
+        return dueDate;
     }
 
     /**
-     * @param realizedDate the realizedDate to set
+     * @param dueDate the dueDate to set
      */
-    public void setRealizedDate(Date realizedDate) {
-        this.realizedDate = realizedDate;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    /**
+     * @param frequency the frequency to set
+     */
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
+    }
+
+    /**
+     * @return the frequency
+     */
+    public Frequency getFrequency() {
+        return frequency;
     }
 
     /**
@@ -126,6 +156,34 @@ public class Cleaning extends PanacheEntityBase {
      */
     public boolean isActive() {
         return active;
+    }
+
+    /**
+     * @param tasks the tasks to set
+     */
+    public void setTasks(List<CleaningTask> tasks) {
+        this.tasks = tasks;
+    }
+
+    /**
+     * @return the tasks
+     */
+    public List<CleaningTask> getTasks() {
+        return tasks;
+    }
+
+    /**
+     * @param products the products to set
+     */
+    public void setProducts(List<CleaningProduct> products) {
+        this.products = products;
+    }
+
+    /**
+     * @return the products
+     */
+    public List<CleaningProduct> getProducts() {
+        return products;
     }
 
     @Override

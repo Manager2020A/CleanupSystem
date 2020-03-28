@@ -15,22 +15,13 @@ public class CleaningController {
             throw new WebApplicationException("Cleaning with id of " + id + " does not exist.", Response.Status.NOT_FOUND);
         }
         cleaning.setName(c.getName());
-        cleaning.setEstimateDate( c.getEstimateDate() );
+        cleaning.setNextDate( c.getNextDate() );
         cleaning.setEstimateTime( c.getEstimateTime() );
-        cleaning.setRealizedDate( c.getRealizedDate() );
+        cleaning.setDueDate( c.getDueDate() );
         cleaning.setGuidelines( c.getGuidelines() );
         cleaning.setActive( c.isActive() );
+        cleaning.setFrequency( c.getFrequency() );
+        
         return cleaning;
-    }
-
-    /**
-     * This method is main purpose to show simple "Business" example
-     * 
-     * @param product
-     * @return
-     */
-    public boolean isValid(Cleaning product) {
-        return !product.getName().isEmpty();
-
     }
 }
