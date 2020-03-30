@@ -14,8 +14,11 @@ public class CleaningTask extends PanacheEntityBase {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "ref_task")
+    @JoinColumn(name = "ref_task", insertable = false, updatable = false )
     private Task task;
+
+    @Basic
+    private int ref_task;
 
     @Column(name = "ref_cleaning")
     private int cleaningId;
@@ -72,6 +75,16 @@ public class CleaningTask extends PanacheEntityBase {
         return realized;
     }
 
+    
+    public void setTaskId( int task )
+    {
+        this.ref_task = task;
+    }
+
+    public int getTaskId()
+    {
+        return ref_task;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o)
