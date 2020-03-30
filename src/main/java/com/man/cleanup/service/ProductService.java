@@ -19,8 +19,21 @@ public class ProductService {
     private ProductController controller;
 
     @GET
+    @Path("{id}")
+    public Response find(@PathParam("id") Long id){
+        Product p = Product.findById(id);
+        return Response.ok(p).build();
+    }
+
+    @GET
     public List<Product> findAll() {
         return Product.listAll();
+    }
+
+    @GET
+    @Path("/active")
+    public List<Product> findAllActives(){
+        return Product.list("active", true);
     }
 
     @POST
