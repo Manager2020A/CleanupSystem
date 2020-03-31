@@ -31,3 +31,7 @@ create table cleaning_products
 insert into cleanings values ( 1, 'Limpeza Semanal', 'limpar com cuidado', to_date('20200503','YYYYMMDD'), null, '01:00:00', true, 0 );
 insert into cleaning_tasks values ( 1, 1, 1, false );
 insert into cleaning_products values ( 1, 1, 1, 0, false );
+
+alter sequence cleanings_id_seq restart with 2;
+alter sequence cleaning_tasks_id_seq restart with 2;
+alter sequence cleaning_products_id_seq restart with 2;

@@ -1,7 +1,8 @@
 package com.man.cleanup.data;
 
 import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,16 +29,16 @@ public class Cleaning extends PanacheEntityBase {
     private String guidelines;
 
     @Column(name = "next_date")
-    private Date nextDate;
+    private LocalDate nextDate;
 
     @Column(name = "due_date")
     private Date dueDate;
 
     @Column(name = "estimated_time")
-    private Time estimateTime;
+    private LocalTime estimateTime;
 
     @Column
-    private boolean active;
+    private boolean active = true;
 
     @Enumerated
     @Column
@@ -75,28 +76,28 @@ public class Cleaning extends PanacheEntityBase {
     /**
      * @return the nextDate
      */
-    public Date getNextDate() {
+    public LocalDate getNextDate() {
         return nextDate;
     }
 
     /**
      * @param nextDate the nextDate to set
      */
-    public void setNextDate(Date nextDate) {
+    public void setNextDate(LocalDate nextDate) {
         this.nextDate = nextDate;
     }
 
     /**
      * @return the estimateTime
      */
-    public Time getEstimateTime() {
+    public LocalTime getEstimateTime() {
         return estimateTime;
     }
 
     /**
      * @param estimateTime the estimateTime to set
      */
-    public void setEstimateTime(Time estimateTime) {
+    public void setEstimateTime(LocalTime estimateTime) {
         this.estimateTime = estimateTime;
     }
 

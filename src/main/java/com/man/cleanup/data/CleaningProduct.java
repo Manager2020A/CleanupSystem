@@ -14,8 +14,11 @@ public class CleaningProduct extends PanacheEntityBase {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "ref_product")
+    @JoinColumn(name = "ref_product",  insertable = false, updatable = false)
     private Product product;
+
+    @Basic()
+    private int ref_product;
 
     @Column(name = "ref_cleaning")
     private int cleaningId;
@@ -66,6 +69,20 @@ public class CleaningProduct extends PanacheEntityBase {
      */
     public void setCleaningId(int cleaningId) {
         this.cleaningId = cleaningId;
+    }
+
+    /**
+     * @param product the product to set
+     */
+    public void setProductId(int product) {
+        this.ref_product = product;
+    }
+
+    /**
+     * @return the ref_product
+     */
+    public int getProductId() {
+        return ref_product;
     }
 
     /**
