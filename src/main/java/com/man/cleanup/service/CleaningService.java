@@ -24,6 +24,24 @@ public class CleaningService {
     }
 
     @GET
+    @Path("/name/{name}")
+    public List<Cleaning> findName(@PathParam("name") String name) {
+        return Cleaning.list( "name", name );
+    }
+
+    @GET
+    @Path("/pendency")
+    public List<Cleaning> findPendency() {
+        return Cleaning.list( "due_date", "is null" );
+    }
+    @GET
+    @Path("/active")
+    public List<Cleaning> findAllActives(){
+        return Cleaning.list("active", true);
+    }
+
+
+    @GET
     @Path("{id}")
     public Cleaning find(@PathParam("id") Long id) {
         return Cleaning.findById(id);
