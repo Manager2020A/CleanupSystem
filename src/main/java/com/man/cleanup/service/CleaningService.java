@@ -33,7 +33,7 @@ public class CleaningService {
     @Transactional
     public Response create(Cleaning p) {
         Cleaning.persist(p);
-        return Response.ok(p).status(200).build();
+        return Response.ok(p).status(201).build();
     }
 
     @PUT
