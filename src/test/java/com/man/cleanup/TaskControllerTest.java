@@ -35,8 +35,8 @@ public class TaskControllerTest {
 
         task = new Task();
         task.setActive(true);
-        task.setGuidelines("Teste");
-        task.setName("Teste");
+        task.setGuidelines("Usar Sabão liquido");
+        task.setName("Lavar Roupa");
 
         assertDoesNotThrow(() -> controller.check(task));
     }

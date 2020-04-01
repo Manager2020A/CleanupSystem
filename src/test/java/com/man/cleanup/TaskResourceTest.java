@@ -25,7 +25,7 @@ public class TaskResourceTest {
 
     @Test
     public void testPOSTEndepoint() {
-        String json = " { " + "\"name\" : \"TESTE\"," + "\"guidelines\" : \"\"" + " }";
+        String json = " { " + "\"name\" : \"Lavar Chão\"," + "\"guidelines\" : \"\"" + " }";
 
         given().body(json).contentType(ContentType.JSON).post("/task").then().statusCode(201)
                 .contentType(ContentType.JSON).body("id", CoreMatchers.notNullValue());
