@@ -28,7 +28,7 @@ public class CleaningResourceTest {
         String json = " { " + "\"name\" : \"TESTE\"," + "\"guidelines\" : \"\"," + "\"frequencys\" : \"MANUAL\","
                 + "\"nextDate\" : \"2020-05-03\"," + "\"estimateTime\" : \"01:00:00\"" + " }";
 
-        given().body(json).contentType(ContentType.JSON).post("/cleaning").then().statusCode(200)
+        given().body(json).contentType(ContentType.JSON).post("/cleaning").then().statusCode(201)
                 .contentType(ContentType.JSON).body("id", CoreMatchers.notNullValue());
     }
 }

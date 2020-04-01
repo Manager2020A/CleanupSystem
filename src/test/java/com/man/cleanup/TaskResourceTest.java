@@ -19,7 +19,7 @@ public class TaskResourceTest {
 
     @Test
     public void testGET1Endpoint() {
-        given().when().param("id", 1l).get("/task").then().contentType(ContentType.JSON).statusCode(201)
+        given().when().param("id", 1l).get("/task").then().contentType(ContentType.JSON).statusCode(200)
                 .body(CoreMatchers.notNullValue());
     }
 
@@ -27,7 +27,7 @@ public class TaskResourceTest {
     public void testPOSTEndepoint() {
         String json = " { " + "\"name\" : \"TESTE\"," + "\"guidelines\" : \"\"" + " }";
 
-        given().body(json).contentType(ContentType.JSON).post("/task").then().statusCode(200)
+        given().body(json).contentType(ContentType.JSON).post("/task").then().statusCode(201)
                 .contentType(ContentType.JSON).body("id", CoreMatchers.notNullValue());
     }
 }
