@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.WebApplicationException;
 
 import com.man.cleanup.controller.TaskController;
 import com.man.cleanup.data.Task;
@@ -25,7 +26,8 @@ public class TaskControllerTest {
     @Test
     public void testErrorController() {
         
-        assertThrows(IllegalArgumentException.class, () -> controller.check(task));
+        //assertThrows(IllegalArgumentException.class, () -> controller.check(task));
+        assertThrows(WebApplicationException.class, () -> controller.check(task));
     }
 
     @Test
