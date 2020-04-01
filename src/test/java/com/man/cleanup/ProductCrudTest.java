@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class ProductTest{
+public class ProductCrudTest{
 
     @Test
     public void testFind(){
