@@ -29,6 +29,5 @@ public class ProductController {
      */
     public boolean isValid(Product product) {
         return !product.getName().isEmpty();
-
     }
 }
