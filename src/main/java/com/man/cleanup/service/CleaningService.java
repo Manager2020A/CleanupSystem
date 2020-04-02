@@ -32,11 +32,12 @@ public class CleaningService {
     @GET
     @Path("/pendency")
     public List<Cleaning> findPendency() {
-        return Cleaning.list( "due_date", "is null" );
+        return Cleaning.list( "due_date is null" );
     }
+
     @GET
-    @Path("/active")
-    public List<Cleaning> findAllActives(){
+    @Path("/active/{active}")
+    public List<Cleaning> findAllActives(@PathParam("active") Boolean active){
         return Cleaning.list("active", true);
     }
 

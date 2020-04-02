@@ -18,7 +18,7 @@ public class TaskController {
 
         task.setName(t.getName());
         task.setGuidelines(t.getGuidelines());
-        task.setActive(t.isAtive());
+        task.setActive(t.isActive());
 
         return task;
     }
@@ -32,19 +32,19 @@ public class TaskController {
             throw new WebApplicationException("Task's name cannot be null", Response.Status.INTERNAL_SERVER_ERROR);
         }
 
-        if (!t.isAtive()) {
+        if (!t.isActive()) {
             throw new WebApplicationException("Task must be active", Response.Status.INTERNAL_SERVER_ERROR);
         }
 
         if ( t.getId() != null ) {
-            if (Task.count("upper( name ) = ?1 and id <> ?2", t.getName().toUpperCase(), t.getId()) > 0) {
+            if (Task.count("upper( name ) = ?1 and id <> ?2 and active is true", t.getName().toUpperCase(), t.getId()) > 0) {
                 throw new WebApplicationException("Task ''" + t.getName() + "' already exists",
                         Response.Status.INTERNAL_SERVER_ERROR);
             }
         }
 
         else {
-            if (Task.count("upper( name ) = ?1", t.getName().toUpperCase()) > 0) {
+            if (Task.count("upper( name ) = ?1 and active is true" , t.getName().toUpperCase()) > 0) {
                 throw new WebApplicationException("Task ''" + t.getName() + "' already exists",
                         Response.Status.INTERNAL_SERVER_ERROR);
             }

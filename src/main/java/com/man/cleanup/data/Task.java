@@ -66,7 +66,7 @@ public class Task extends PanacheEntityBase {
     /**
      * @return the active
      */
-    public boolean isAtive() {
+    public boolean isActive() {
         return active;
     }
 
