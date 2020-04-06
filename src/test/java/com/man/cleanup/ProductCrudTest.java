@@ -1,50 +1,57 @@
 package com.man.cleanup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import com.man.cleanup.controller.ProductController;
 import com.man.cleanup.data.Product;
+import com.man.cleanup.util.Errors;
 
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class ProductCrudTest{
+public class ProductCrudTest {
+
+    @Inject
+    private ProductController controller;
 
     @Test
-    public void testFind(){
+    public void testFind() {
         Product p = Product.findById(new Long(3));
 
         assertEquals(3, p.getId());
         assertEquals("Detergente", p.getName());
         assertEquals("", p.getBranding());
         assertEquals(500, p.getCapacity());
-        assertEquals(true,p.isActive());
+        assertEquals(true, p.isActive());
     }
 
     @Test
     @Transactional
-    public void testeList(){
+    public void testeList() {
         Product p = new Product();
         p.setName("Teste");
         p.persist();
 
-       List<Product> products = Product.listAll();
-       assertTrue(products.size() > 0);
+        List<Product> products = Product.listAll();
+        assertTrue(products.size() > 0);
 
-       p.delete();
+        p.delete();
     }
 
     @Test
     @Transactional
-    public void testCreate(){
+    public void testCreate() {
         Product p = new Product();
         p.setName("Pro\\du/to de t'es\"te");
         p.setBranding("Ma\"rc\\a T'es/te");
@@ -55,18 +62,18 @@ public class ProductCrudTest{
         Long id = p.getId();
         Product p2 = Product.findById(id);
 
-        assertEquals(p.getId(),p2.getId());
-        assertEquals(p.getName(),p2.getName());
-        assertEquals(p.getBranding(),p2.getBranding());
-        assertEquals(p.getCapacity(),p2.getCapacity());
-        assertEquals(p.isActive(),p2.isActive());
+        assertEquals(p.getId(), p2.getId());
+        assertEquals(p.getName(), p2.getName());
+        assertEquals(p.getBranding(), p2.getBranding());
+        assertEquals(p.getCapacity(), p2.getCapacity());
+        assertEquals(p.isActive(), p2.isActive());
 
         p2.delete();
     }
 
     @Test
     @Transactional
-    public void testUpdate(){
+    public void testUpdate() {
         Product p = Product.findById(new Long(3));
 
         String name = p.getName();
@@ -95,7 +102,7 @@ public class ProductCrudTest{
 
     @Test
     @Transactional
-    public void testDelete(){
+    public void testDelete() {
         Product p = new Product();
         p.setName("Produto deletar");
         p.setCapacity(1);
@@ -107,5 +114,31 @@ public class ProductCrudTest{
 
         Product del = Product.findById(id);
         assertNull(del);
+    }
+
+    @Test
+    @Transactional
+    public void testController() {
+        Product p = new Product();
+        p.setName("Produto");
+        p.setBranding("teste");
+
+        Errors errors = controller.isValid(p);
+
+        assertFalse( errors.hasErros(), errors.toString());
+
+        if (!errors.hasErros()) {
+            p.persist();
+        }
+
+        Product p1 = new Product();
+        p1.setName("Produto");
+        p1.setBranding("teste");
+
+        errors = controller.isValid(p1);
+
+        assertTrue(errors.hasErros(), errors.toString());
+
+        p.delete();
     }
 }

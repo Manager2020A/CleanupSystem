@@ -8,6 +8,7 @@ import javax.ws.rs.NotFoundException;
 import com.man.cleanup.data.Cleaning;
 import com.man.cleanup.data.CleaningProduct;
 import com.man.cleanup.data.CleaningTask;
+import com.man.cleanup.util.Errors;
 
 @ApplicationScoped
 public class CleaningController {
@@ -52,14 +53,18 @@ public class CleaningController {
         entity.setActive(false);
     }
 
-    public void check( Cleaning c ){
+    public Errors check( Cleaning c ){
+        Errors errros = new Errors();
+
         if ( c.getNextDate() == null ){
-            throw new IllegalArgumentException( "Cleaning Next date cannot be null" );
+            errros.addError( "Necessário definir uma data para a faxina!" );
         }
 
-        if ( c.getNextDate().isBefore( LocalDate.now() )){
-            throw new IllegalArgumentException( "Cleaning Next Date must be after today" );
+        else if ( c.getNextDate().isBefore( LocalDate.now() )){
+            errros.addError( "Necessário definir uma data maior que a data atual!");
         }
+
+        return errros;
     }
 
     

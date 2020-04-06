@@ -9,6 +9,7 @@ import javax.ws.rs.core.*;
 
 import com.man.cleanup.controller.ProductController;
 import com.man.cleanup.data.Product;
+import com.man.cleanup.util.Errors;
 
 @Path("/product")
 @Produces(MediaType.APPLICATION_JSON)
@@ -47,11 +48,14 @@ public class ProductService {
     @Path("{id}")
     @Transactional
     public Response update(@PathParam("id") Long id, Product p) {
-        if (!controller.isValid(p)) {
-            return Response.ok("Product was not found").type(MediaType.APPLICATION_JSON_TYPE).build();
+
+        Errors e = controller.isValid( p );
+    
+        if (e.hasErros() ){
+            return Response.serverError().entity( e.toString() ).build();
         }
-        Product entity = controller.update(id, p);
-        return Response.ok(entity).build();
+        
+        return Response.ok( controller.update(id, p) ).build();
     }
 
     @DELETE

@@ -22,7 +22,7 @@ public class Product extends PanacheEntityBase {
     private double capacity;
 
     @Column
-    private boolean active;
+    private boolean active = true;
     
     ;
 
@@ -51,7 +51,7 @@ public class Product extends PanacheEntityBase {
      * @return the branding
      */
     public String getBranding() {
-        return branding;
+        return branding == null ? "" : branding;
     }
 
     /**
