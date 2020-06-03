@@ -23,6 +23,16 @@ public class ProductController {
         return product;
     }
 
+    public void check(Product p){
+        if (p == null) {
+            throw new WebApplicationException("Product cannot be null", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
+        if(p.getName() == null || p.getName().trim().isEmpty()){
+            throw new WebApplicationException("Task's name cannot be empty", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * This method is main purpose to show simple "Business" example
      * 

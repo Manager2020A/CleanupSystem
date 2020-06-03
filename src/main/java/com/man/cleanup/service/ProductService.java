@@ -23,7 +23,11 @@ public class ProductService {
     @Path("{id}")
     public Response find(@PathParam("id") Long id){
         Product p = Product.findById(id);
-        return Response.ok(p).build();
+        if(p == null){
+            return Response.status(404).build();
+        }else{
+            return Response.ok(p).build();
+        }
     }
 
     @GET
@@ -40,8 +44,13 @@ public class ProductService {
     @POST
     @Transactional
     public Response create(Product p) {
-        Product.persist(p);
-        return Response.ok(p).status(201).build();
+        try{
+            controller.check(p);
+            Product.persist(p);
+            return Response.ok(p).status(201).build();
+        }catch (Exception e) {
+            return Response.serverError().entity(e).build();
+        }
     }
 
     @PUT
