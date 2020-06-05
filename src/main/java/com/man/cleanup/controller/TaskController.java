@@ -5,6 +5,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import com.man.cleanup.data.Task;
+import com.man.cleanup.util.Errors;
 
 @ApplicationScoped
 public class TaskController {
@@ -55,11 +56,24 @@ public class TaskController {
     /**
      * This method is main purpose to show simple "Business" example
      * 
-     * @param task
+     * @param product
      * @return
      */
-    public boolean isValid(Task task) {
-        return !task.getName().isEmpty();
+    public Errors isValid(Task task) {
+        Errors errors = new Errors();
 
+        if (task == null) {
+            errors.addError("Tarefa não pode ser nula!");
+        }
+
+        if (task.getName() == null || task.getName().isEmpty()) {
+            errors.addError("Informe um nome para a tarefa!");
+        }
+
+        if (!task.isActive()) {
+            errors.addError("Tarefa não pode ser inativa!");
+        }
+
+        return errors;
     }
 }

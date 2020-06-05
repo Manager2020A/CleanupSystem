@@ -67,5 +67,29 @@ public class CleaningController {
         return errros;
     }
 
+    /**
+     * This method is main purpose to show simple "Business" example
+     * 
+     * @param product
+     * @return
+     */
+    public Errors isValid(Cleaning c) {
+        Errors errors = new Errors();
+
+        if (c == null) {
+            errors.addError("Limpeza não pode ser nula!");
+        }
+
+        if (c.getName() == null || c.getName().isEmpty()) {
+            errors.addError("Informe um nome para a limpeza!");
+        }
+
+        if (!c.isActive()) {
+            errors.addError("Limpeza não pode ser inativa!");
+        }
+
+        return errors;
+    }
+
     
 }
