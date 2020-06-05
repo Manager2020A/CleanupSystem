@@ -9,6 +9,7 @@ import javax.ws.rs.core.*;
 
 import com.man.cleanup.controller.TaskController;
 import com.man.cleanup.data.Task;
+import com.man.cleanup.util.Errors;
 
 @Path("/task")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,9 +46,17 @@ public class TaskService {
     @Path("{id}")
     @Transactional
     public Response update(@PathParam("id") Long id, Task t) {
-        if (!controller.isValid(t)) {
-            return Response.ok("Task was not found").type(MediaType.APPLICATION_JSON_TYPE).build();
+
+        Errors e = controller.isValid( t );
+    
+        if (e.hasErros() ){
+            return Response.serverError().entity( e.toString() ).build();
         }
+
+        // if (!controller.isValid(t)) {
+        //     return Response.ok("Task was not found").type(MediaType.APPLICATION_JSON_TYPE).build();
+        // }
+        
         Task entity = controller.update(id, t);
         return Response.ok(entity).build();
     }
