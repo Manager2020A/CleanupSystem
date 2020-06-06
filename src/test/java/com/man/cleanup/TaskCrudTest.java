@@ -129,7 +129,7 @@ public class TaskCrudTest {
 
         errors = controller.isValid(p1);
 
-        assertTrue(errors.hasErros(), errors.toString());
+        assertFalse(errors.hasErros(), errors.toString());
 
         p.delete();
     }

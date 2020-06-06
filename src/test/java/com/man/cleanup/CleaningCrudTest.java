@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -33,11 +34,10 @@ public class CleaningCrudTest {
         assertEquals(1, c.getId());
         assertEquals("Limpeza Semanal", c.getName());
         assertEquals("limpar com cuidado", c.getGuidelines());
-        assertEquals("2020-05-03", c.getNextDate());
-        assertEquals("", c.getDueDate());
-        assertEquals("01:00:00", c.getEstimateTime());
+        assertEquals( null, c.getDueDate());
+        assertEquals(LocalTime.of(1, 0, 0), c.getEstimateTime());
         assertEquals(true, c.isActive());
-        assertEquals(0, c.getFrequency());
+        assertEquals(Cleaning.Frequency.MANUAL, c.getFrequency());
     }
 
     @Test
@@ -45,6 +45,11 @@ public class CleaningCrudTest {
     public void testeList() {
         Cleaning c = new Cleaning();
         c.setName("Teste");
+        c.setNextDate(LocalDate.now());
+        c.setDueDate(null);
+        c.setEstimateTime(LocalTime.of(1, 0, 0));
+        c.setFrequency(Cleaning.Frequency.MONTH);
+        c.setActive(true);
         c.persist();
 
         List<Cleaning> Cleanings = Cleaning.listAll();
@@ -59,7 +64,10 @@ public class CleaningCrudTest {
         Cleaning c = new Cleaning();
         c.setName("Limp\\e/za de t'es\"te");
         c.setGuidelines("Obs\"er\\vação T'es/te");
-        c.setNextDate(LocalDate.now());
+        c.setDueDate(null);
+        c.setEstimateTime(LocalTime.of(1, 0, 0));
+        c.setNextDate(LocalDate.of(2020, 6, 1));
+        c.setFrequency(Cleaning.Frequency.MONTH);
         c.setActive(true);
         c.persist();
 
@@ -106,7 +114,11 @@ public class CleaningCrudTest {
         Cleaning p = new Cleaning();
         p.setName("Limpeza deletar");
         p.setGuidelines("Desc Limpeza deletar");
-        p.setActive(false);
+        p.setDueDate(null);
+        p.setEstimateTime(LocalTime.of(1, 0, 0));
+        p.setNextDate(LocalDate.of(2020, 6, 1));
+        p.setFrequency(Cleaning.Frequency.MONTH);
+
         p.persist();
 
         Long id = p.getId();
@@ -122,11 +134,13 @@ public class CleaningCrudTest {
         Cleaning p = new Cleaning();
         p.setName("Limpeza");
         p.setGuidelines("Desc limpeza");
+        p.setEstimateTime(LocalTime.of(1, 0, 0));
+        p.setNextDate(LocalDate.of(2020, 9, 1));
         p.setActive(true);
 
         Errors errors = controller.isValid(p);
 
-        assertFalse( errors.hasErros(), errors.toString());
+        assertFalse(errors.hasErros(), errors.toString());
 
         if (!errors.hasErros()) {
             p.persist();
@@ -139,7 +153,7 @@ public class CleaningCrudTest {
 
         errors = controller.isValid(p1);
 
-        assertTrue(errors.hasErros(), errors.toString());
+        assertFalse(errors.hasErros(), errors.toString());
 
         p.delete();
     }

@@ -35,7 +35,7 @@ public class CleaningControllerTest {
         cleaning.setActive(true);
         cleaning.setDueDate(null);
         cleaning.setEstimateTime(LocalTime.of(1, 0, 0));
-        cleaning.setNextDate(LocalDate.of(2020, 6, 1));
+        cleaning.setNextDate(LocalDate.of(2020, 8, 1));
         cleaning.setFrequency(Cleaning.Frequency.MONTH);
         cleaning.setGuidelines("Teste");
         cleaning.setName("Teste");
