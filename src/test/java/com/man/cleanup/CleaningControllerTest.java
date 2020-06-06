@@ -42,4 +42,23 @@ public class CleaningControllerTest {
 
         assertFalse(controller.check(cleaning).hasErros());
     }
+
+    @Test
+    public void testIsValid(){
+        Cleaning c = new Cleaning();
+        c.setName("Limpeza teste");
+        c.setActive(true);
+
+        assertFalse(controller.isValid(c).hasErros());
+    }
+
+    @Test
+    public void testIsNotValid(){
+        Cleaning c = new Cleaning();
+        c.setName("Limpeza teste");
+        c.setActive(false);
+
+        Errors errors = controller.isValid(c);
+        assertTrue(errors.hasErros(), errors.toString());
+    }
 }

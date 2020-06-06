@@ -6,21 +6,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.inject.Inject;
 
-import com.man.cleanup.controller.TaskController;
-import com.man.cleanup.data.Task;
+import com.man.cleanup.controller.ProductController;
+import com.man.cleanup.data.Product;
 import com.man.cleanup.util.Errors;
 
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
-public class TaskControllerTest {
+public class ProductControllerTest {
 
     @Inject
-    private TaskController controller;
+    private ProductController controller;
 
     @Test
     public void testErrorController() {
-        Errors errors = controller.check(new Task());
+        Errors errors = controller.check(new Product());
 
         assertTrue(errors.hasErros(), errors.toString());
     }
@@ -28,30 +28,30 @@ public class TaskControllerTest {
     @Test
     public void testValidController() {
 
-        Task task = new Task();
-        task.setName("Tarefa teste");
+        Product p = new Product();
+        p.setName("Produto teste");
         
-        assertFalse(controller.check(task).hasErros());
+        assertFalse(controller.check(p).hasErros());
     }
 
     @Test
     public void testIsValid(){
 
-        Task t = new Task();
-        t.setName("Tarefa teste");
-        t.setActive(true);
+        Product p = new Product();
+        p.setName("Produto teste");
+        p.setActive(true);
 
-        assertFalse(controller.isValid(t).hasErros());
+        assertFalse(controller.isValid(p).hasErros());
     }
 
     @Test
     public void testIsNotValid(){
 
-        Task t = new Task();
-        t.setName("Tarefa teste");
-        t.setActive(false);
+        Product p = new Product();
+        p.setName("Produto teste");
+        p.setActive(false);
 
-        Errors errors = controller.isValid(t);
+        Errors errors = controller.isValid(p);
         assertTrue(errors.hasErros(), errors.toString());
     }
 }

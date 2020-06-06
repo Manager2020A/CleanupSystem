@@ -23,14 +23,17 @@ public class ProductController {
         return product;
     }
 
-    public void check(Product p){
+    public Errors check(Product p){
+        Errors errors = new Errors();
+
         if (p == null) {
-            throw new WebApplicationException("Product cannot be null", Response.Status.INTERNAL_SERVER_ERROR);
+            errors.addError("Produto não pode ser nulo");
+        } else if(p.getName() == null || p.getName().trim().isEmpty()){
+            errors.addError("Nome do produto não pode ser nulo");
         }
 
-        if(p.getName() == null || p.getName().trim().isEmpty()){
-            throw new WebApplicationException("Task's name cannot be empty", Response.Status.INTERNAL_SERVER_ERROR);
-        }
+        return errors;
+
     }
 
     /**
@@ -44,17 +47,11 @@ public class ProductController {
 
         if (product == null) {
             errors.addError("Produto não pode ser nulo!");
-        }
-
-        if (product.getName() == null || product.getName().isEmpty()) {
+        } else if (product.getName() == null || product.getName().isEmpty()) {
             errors.addError("Informe um nome para o produto!");
-        }
-
-        if (!product.isActive()) {
+        } else if (!product.isActive()) {
             errors.addError("Produto não pode ser inativo!");
-        }
-
-        if (product.getId() != null && product.getId() > 0l) {
+        } else if (product.getId() != null && product.getId() > 0l) {
             if (Product.count("upper( name ) = ?1 and upper( branding ) = ?2 and active is true and id <> ?3",
                     product.getName().toUpperCase(), product.getBranding().toUpperCase(), product.getId()) > 0) {
                 errors.addError("Produto já existe!");

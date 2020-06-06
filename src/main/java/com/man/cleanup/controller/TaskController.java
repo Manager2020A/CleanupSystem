@@ -24,33 +24,25 @@ public class TaskController {
         return task;
     }
 
-    public void check(Task t) {
+    public Errors check(Task t) {
+        Errors errors = new Errors();
+
         if (t == null) {
-            throw new WebApplicationException("Task cannot be null", Response.Status.INTERNAL_SERVER_ERROR);
-        }
-
-        if (t.getName() == null || t.getName().isEmpty()) {
-            throw new WebApplicationException("Task's name cannot be null", Response.Status.INTERNAL_SERVER_ERROR);
-        }
-
-        if (!t.isActive()) {
-            throw new WebApplicationException("Task must be active", Response.Status.INTERNAL_SERVER_ERROR);
-        }
-
-        if ( t.getId() != null ) {
+            errors.addError("Tarefa não pode ser nula");
+        }else if (t.getName() == null || t.getName().isEmpty()) {
+            errors.addError("Nome da tarefa não pode ser nula");
+        }else if ( t.getId() != null ) {
             if (Task.count("upper( name ) = ?1 and id <> ?2 and active is true", t.getName().toUpperCase(), t.getId()) > 0) {
-                throw new WebApplicationException("Task ''" + t.getName() + "' already exists",
-                        Response.Status.INTERNAL_SERVER_ERROR);
+                errors.addError("Tarefa " + t.getName() + " já existe");
             }
-        }
-
-        else {
+        }else {
             if (Task.count("upper( name ) = ?1 and active is true" , t.getName().toUpperCase()) > 0) {
-                throw new WebApplicationException("Task ''" + t.getName() + "' already exists",
-                        Response.Status.INTERNAL_SERVER_ERROR);
+                errors.addError("Tarefa " + t.getName() + " já existe");
             }
         }
 
+        return errors;
+        
     }
 
     /**
