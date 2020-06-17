@@ -1,0 +1,1 @@
+drop table tabela_integracao_teste;

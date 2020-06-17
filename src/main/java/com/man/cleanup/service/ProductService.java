@@ -36,12 +36,6 @@ public class ProductService {
     }
 
     @GET
-    @Path("/teste")
-    public List<Product> findAllTeste() {
-        return Product.listAll();
-    }
-
-    @GET
     @Path("/active")
     public List<Product> findAllActives(){
         return Product.list("active", true);
